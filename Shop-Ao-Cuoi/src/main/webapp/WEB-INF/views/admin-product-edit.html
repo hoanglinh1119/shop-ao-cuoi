@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity4">
+<head th:replace="layout-footer::head"></head>
+<body>
+
+<div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
+<br>
+<br>
+<br>
+<!-- start slider -->
+<div style="background-color:#e0ddda">
+    <div class="wrap">
+        <h3>Edit Product</h3>
+        <p th:text="${message}"></p><br>
+        <form th:action="@{/admin/edit-product}"  method="post" th:object="${productForm}" enctype="multipart/form-data">
+            <div class="form-group">
+                <p>id:</p>
+                <input type="text" class="form-control" th:field="*{id}">
+
+            </div>
+            <div class="form-group">
+                <p>Name Product:</p>
+                    <input type="text" class="form-control" th:field="*{name}">
+
+            </div>
+            <div class="form-group">
+                <p>Image</p>
+                <input type="file" class="form-control-file" multiple name="fileImage" th:field="*{image}">
+            </div>
+            <div class="form-group">
+                <p>Price $</p>
+                <input type="number" class="form-control"
+                       th:field="*{price}" name="price">
+            </div>
+            <div class="form-group">
+                <p>Amount : </p>
+                <input type="number" class="form-control"
+                       th:field="*{amount}" name="amount">
+            </div>
+            <div class="form-group">
+                <p>Product of Material: </p>
+                <select th:field="*{productMaterial}" th:type="text" class="form-control">
+                    <option th:each="p: ${materials}" th:value="${p.id}" th:text="${p.material}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Product of Color: </p>
+                <select th:field="*{productColor}" th:type="text" class="form-control">
+                    <option th:each="p: ${colors}" th:value="${p.id}" th:text="${p.color}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Product of Type: </p>
+                <select th:field="*{types}" th:type="text" class="form-control">
+                    <option th:each="p: ${types}" th:value="${p.id}" th:text="${p.type}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Product of Store location: </p>
+                <select th:field="*{storeLocation}" th:type="text" class="form-control">
+                    <option th:each="p: ${stores}" th:value="${p.id}" th:text="${p.apartmentNumber}+${p.ward}+${p.district}+${p.province}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Short Description</p>
+                <input type="text" class="form-control"
+                       th:value="*{shortDescription}" name="shortDescription">
+            </div>
+            <div class="form-group">
+                <p>Long Describe</p>
+                <textarea class="form-control" rows="3" th:field="*{longDescription}" name="longDescription"></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">SAVE</button>
+        </form>
+        <br>
+        <br>
+        <br>
+    </div>
+</div>
+<div class="clear"></div>
+<footer th:replace="layout-footer::footer"></footer>
+
+<script>
+    const apiBaseUrl = 'http://localhost:8080';
+
+    function addToCart(id) {
+        $.ajax(`${apiBaseUrl}/addtocart/${id}`)
+            .done(function (result) {
+                document.getElementById('cart').innerHTML = "CART(" + result + ")";
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
+    }
+
+</script>
+</body>
+</html>

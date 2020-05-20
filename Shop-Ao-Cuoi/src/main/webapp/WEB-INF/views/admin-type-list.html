@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Type Product</title>
+    <head th:replace="layout-footer::head"></head>
+</head>
+<body>
+<div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
+<a href="/admin/create-type">Create new Type of Product</a>
+<h1> Type Product list</h1>
+<table border="1"  class="table table-dark">
+    <tr>
+        <th>Type Product</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="type : ${types}">
+        <tr>
+            <td th:text="${type.type}"></td>
+            <td><a th:href="@{/admin/edit-type/__${type.id}__ }">Edit</a></td>
+            <td><a th:href="@{/admin/delete-type/__${type.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<footer th:replace="layout-footer::footer"></footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Colors</title>
+    <head th:replace="layout-footer::head"></head>
+</head>
+<body>
+<div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
+<a href="/admin/create-product-color">Create new Color</a>
+<h1> Color list</h1>
+<table border="1"  class="table table-dark">
+    <tr>
+        <th>Color</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="color : ${colors}">
+        <tr>
+            <td th:text="${color.color}"></td>
+            <td><a th:href="@{/edit-color/__${color.id}__ }">Edit</a></td>
+            <td><a th:href="@{/delete-color/__${color.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<footer th:replace="layout-footer::footer"></footer>
+</body>
+</html>

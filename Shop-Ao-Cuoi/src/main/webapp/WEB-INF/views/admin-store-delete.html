@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout-footer::head">
+    <meta charset="UTF-8">
+    <title>Delete store Location</title>
+</head>
+<body>
+<div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
+<h1>Delete store Location</h1>
+<h2>Are you sure?</h2>
+<p>
+    <a href="/admin/storeLocations">Store Location list</a>
+</p>
+<form th:action="@{/admin/delete-storeLocation}" th:object="${storeLocation}" method="post">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Apartment Number:</td>
+            <td><input type="text" th:field="*{apartmentNumber}"/></td>
+        </tr>
+        <tr>
+            <td>Ward:</td>
+            <td><input type="text" th:field="*{ward}"/></td>
+        </tr>
+        <tr>
+            <td>District:</td>
+            <td><input type="text" th:field="*{district}"/></td>
+        </tr>
+        <tr>
+            <td>Province:</td>
+            <td><input type="text" th:field="*{province}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Delete Materials"></td>
+        </tr>
+    </table>
+</form>
+<footer th:replace="layout-footer::footer"></footer>
+</body>
+</html>>

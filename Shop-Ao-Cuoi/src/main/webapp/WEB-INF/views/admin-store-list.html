@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout-footer::head">
+    <meta charset="UTF-8">
+    <title>Store Location List </title>
+</head>
+<body>
+<div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
+<a href="/admin/create-storeLocation">Create new store Location</a>
+<h1> Store Location list</h1>
+<table border="1" class="table table-dark">
+    <tr>
+        <th>Apartment Number</th>
+        <th>Ward</th>
+        <th>District</th>
+        <th>Province</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="storeLocation : ${storeLocations}">
+        <tr>
+            <td th:text="${storeLocation.apartmentNumber}"></td>
+            <td th:text="${storeLocation.ward}"></td>
+            <td th:text="${storeLocation.district}"></td>
+            <td th:text="${storeLocation.province}"></td>
+
+            <td><a th:href="@{/edit-storeLocation/__${storeLocation.id}__ }">Edit</a></td>
+            <td><a th:href="@{/delete-storeLocation/__${storeLocation.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<footer th:replace="layout-footer::footer"></footer>
+</body>
+</html>

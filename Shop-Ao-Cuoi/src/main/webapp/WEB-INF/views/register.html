@@ -48,40 +48,49 @@
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
                         <p th:text="${message}"></p>
-                        <form method="post" class="register-form" id="register-form" action="/register" th:object="${user}">
+                        <form method="post" class="register-form" th:action="@{/register}" th:object="${account}" onsubmit=" return validattion()">
                             <div class="form-group">
-<!--                                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">error name</p>-->
-<!--                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error pass</p>-->
-                                <!--                                    <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>-->
-                                <input type="text" name="username" id="name" class="zmdi zmdi-account material-icons-name" th:value="*{username}" placeholder="Full Name"/>
+                                <label for="name"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="name" id="name" class="zmdi zmdi-account material-icons-name" th:field="*{name}"/>
+                                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error name</p>
                             </div>
                             <div class="form-group">
-                                <label for="address"><i class="zmdi zmdi-email"></i></label>
-                                <input type="text" name="address" id="address" th:value="*{address}" placeholder="Your Address"/>
+                                <label for="username"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="username" id="username" class="zmdi zmdi-account material-icons-name" th:field="*{username}" placeholder="user name"/>
+                                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">error username</p>
                             </div>
                             <div class="form-group">
-                                <label for="number"><i class="zmdi zmdi-email"></i></label>
-                                <input type="number" name="number" id="number" th:value="*{numberPhone}"placeholder="Your number phone"/>
+                                <label for="address"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="text" name="address" id="address" th:field="*{address}" placeholder="Your Address"/>
+                                <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}">error address</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="number"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="number" name="number" id="number" th:field="*{numberPhone}"placeholder="Your number phone"/>
+                                <p th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">error numberPhone</p>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" th:value="*{email}" placeholder="Your Email"/>
+                                <input type="email" name="email" id="email" th:field="*{email}" placeholder="Your Email"/>
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">error email</p>
+
                             </div>
                             <div class="form-group">
                                 <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password"  th:value="*{password}" placeholder="Password"/>
+                                <input type="password" name="password" id="password"  th:field="*{password}" placeholder="Password"/>
+                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error password</p>
+
                             </div>
                             <div class="form-group">
                                 <label for="repassword"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="password" name="repassword" id="repassword" placeholder="Repeat your password"/>
-                                <p th:text="${messageRePass}"></p>
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
                                 <label for="agree-term" class="label-agree-term">By submit, I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" onclick="validattion()">
                             </div>
                         </form>
                     </div>
@@ -95,5 +104,15 @@
         <!--        </form>-->
     </div>
 </div>
+<script type="text/javascript">
+    function validattion() {
+        var pass=document.getElementById("password").value;
+        var repass=document.getElementById("repassword").value;
+        if (pass!==repass){
+            alert("Mat khau khong trung khop");
+            return false;
+        }
+    }
+</script>
 <footer th:replace="layout-footer::footer"></footer></body>
 </html>

@@ -2,10 +2,19 @@ package hoanglinh.codegym.service.User;
 
 import hoanglinh.codegym.model.user.Account;
 
+
+import java.util.HashMap;
+import java.util.List;
+
 public interface AccountService {
     Account getAccountByUserName(String username);
 
-    Iterable<Account> findAll();
+    List<Account> findAll();
+
+    boolean checkPass(Account account);
+    boolean checkUserName(Account account);
+
+    HashMap<String,String> getUserMap();
 
     Account findById(Long id);
 

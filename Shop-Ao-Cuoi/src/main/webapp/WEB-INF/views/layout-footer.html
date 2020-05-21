@@ -154,7 +154,7 @@
                 <a href="/"><img src="../../properties/images/logo.png" alt=""/></a>
             </div>
 
-            <div class="menu" th:if="${user!='[ROLE_ADMIN]'}">
+            <div class="menu">
                 <ul class="megamenu skyblue">
                     <li class="active grid"><a href="/">Home</a></li>
                     <li><a class="color4" href="#">women</a>
@@ -242,7 +242,7 @@
 
             <div class="menu">
 <!--                th:if="${user=='[ROLE_ADMIN'}-->
-                <ul class="megamenu skyblue">
+                <ul class="megamenu skyblue" th:if="${user}=='ROLE_ADMIN'">
                     <li class="active grid"><a href="/">Home</a></li>
                     <li><a class="color4" href="/admin/create-product">Add product</a></li>
                     <li><a class="color5" href="/admin/user-manage">User Manage</a></li>

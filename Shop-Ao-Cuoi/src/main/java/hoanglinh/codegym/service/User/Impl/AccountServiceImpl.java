@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccountServiceImpl implements AccountService, UserDetailsService {
@@ -23,8 +24,46 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public Iterable<Account> findAll() {
-        return accountRepository.findAll();
+    public List<Account> findAll() {
+        return (List<Account>) accountRepository.findAll();
+    }
+
+    @Override
+    public boolean checkPass(Account account) {
+        HashMap<String,String> userMap=getUserMap();
+          if (userMap!=null){
+              if (userMap.containsKey(account.getUsername())
+                      &&userMap.get(account.getUsername()).equals(account.getPassword())){
+                  return true;
+              }else {
+                  return false;
+              }
+          }else return false;
+    }
+
+    @Override
+    public boolean checkUserName(Account account) {
+        HashMap<String,String> userMap=getUserMap();
+        if (userMap!=null){
+            if (userMap.containsKey(account.getUsername())){
+                return true;
+            }else {
+                return false;}
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public HashMap<String, String> getUserMap() {
+        HashMap<String,String> userMap=new HashMap<>();
+        List<Account> accountList=findAll();
+        if (accountList!=null){
+           for (Account account:accountList){
+               userMap.put(account.getUsername(),account.getPassword());
+           }
+        }
+        return userMap;
     }
 
     @Override
@@ -46,7 +85,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account=this.getAccountByUserName(username);
         List<GrantedAuthority> authorities=new ArrayList<>();
-        authorities.add(account.getRoles());
+        authorities.add(account.getRole());
 
         UserDetails userDetails=new User(
                 account.getUsername(),

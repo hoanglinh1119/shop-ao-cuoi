@@ -53,13 +53,7 @@ public class ProductController {
     public Iterable<ProductColor> colors(){return iProductColorService.findAll();}
 
 
- @GetMapping("/admin/home")
-    public ModelAndView showProduct(@PageableDefault(size = 3) Pageable pageable){
-     Iterable<Product> products=iProductService.findAll(pageable);
-    ModelAndView modelAndView=new ModelAndView("home-admin");
-    modelAndView.addObject("products",products);
-    return modelAndView;
- }
+
 
  @GetMapping("/admin/create-product")
  public ModelAndView createProduct() {

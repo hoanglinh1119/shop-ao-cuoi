@@ -1,6 +1,7 @@
 package hoanglinh.codegym.configuration;
 
 
+import hoanglinh.codegym.model.user.Role;
 import hoanglinh.codegym.service.User.AccountService;
 import hoanglinh.codegym.service.User.Impl.AccountServiceImpl;
 import hoanglinh.codegym.service.product.*;
@@ -28,10 +29,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -43,6 +48,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 
 @Configuration
@@ -110,7 +116,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/shopaocuoi");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/shopaocuoi?useUnicode=true&characterEncoding=utf-8");
         dataSource.setUsername("root");
         dataSource.setPassword("hoanglinh");
         return dataSource;
@@ -190,20 +196,25 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     public AuthenticationSuccessHandler authenticationSuccessHandler(){
         return new MysuccessHandler();
     }
+
+    @Bean
+    public Role role(){return new Role(2L,"ROLE_USER");}
+
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        registry.addInterceptor(interceptor);
     }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-//        interceptor.setParamName("lang");
-//        registry.addInterceptor(interceptor);
-//    }
-//
-//    @Bean
-//    public LocaleResolver localeResolver() {
-//        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-//        localeResolver.setDefaultLocale(new Locale("en"));
-//        return localeResolver;
-//    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("en"));
+        return localeResolver;
+    }
+}
 
 

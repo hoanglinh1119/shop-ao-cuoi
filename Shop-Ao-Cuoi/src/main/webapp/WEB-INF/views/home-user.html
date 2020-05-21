@@ -4,6 +4,7 @@
 <body>
 
 <div th:insert="layout-footer::nav"></div>
+<div th:insert="layout-footer::menu"></div>
 <!-- start slider -->
 <!--/slider -->
 <!--<div class="main">-->
@@ -58,6 +59,7 @@
         </a>
 
     </div>
+    <span th:text="${user}"></span>
     <h2 class="head">New Products</h2>
     <div class="section group">
         <div class="col_1_of_3 span_1_of_3" th:each="product,iterStat :${products}">

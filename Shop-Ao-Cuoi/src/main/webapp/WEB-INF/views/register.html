@@ -47,6 +47,8 @@
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
                         <p th:text="${message}"></p>
+                        <p th:text="${message1}"></p>
+                        <p th:text="${message2}"></p>
                         <form method="post" class="register-form" th:action="@{/register}" th:object="${account}" onsubmit=" return validattion()">
                             <div class="form-group">
 

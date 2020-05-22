@@ -91,13 +91,18 @@ public class SecurityController {
             return mav;
         }else if (accountService.checkUserName(account)){
             mav.addObject("message","tai khoan da ton tai");
-        } else {
+        } else if (accountService.checkMail(account)){mav.addObject("message1","email da duoc su dung");}
+        else if (accountService.checkNumber(account)){mav.addObject("message2","so dien thoai da su dung");}
+        else {
             account.setRole(role);
             accountService.save(account);
             mav.addObject("message","dang ki thanh cong");
         }
         return mav;
     }
+
+
+
 }
 
 

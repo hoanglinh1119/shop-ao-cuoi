@@ -11,8 +11,11 @@ public interface AccountService {
 
     List<Account> findAll();
 
-    boolean checkPass(Account account);
+    boolean checkMail(Account account);
+    boolean checkNumber(Account account);
     boolean checkUserName(Account account);
+    HashMap<String,String> getMail();
+    HashMap<String,String> getNumber();
 
     HashMap<String,String> getUserMap();
 

@@ -151,8 +151,6 @@ public class ProductController {
                 ex.printStackTrace();
             }
         }
-        // tao doi tuong de luu vao db
-        // luu vao db
         return modelAndView;
     }
 

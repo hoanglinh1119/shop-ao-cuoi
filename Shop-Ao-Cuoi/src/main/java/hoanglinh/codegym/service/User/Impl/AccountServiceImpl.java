@@ -29,29 +29,40 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
+    public Account getAccountByMail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
+    @Override
+    public Account getAccountByNumber(String number) {
+        return accountRepository.findByNumberPhone(number);
+    }
+
+    @Override
     public boolean checkMail(Account account) {
-        HashMap<String,String> userMap=getUserMap();
-          if (userMap!=null){
-              if (userMap.containsKey(account.getUsername())
-                      &&userMap.get(account.getUsername()).equals(account.getEmail())){
-                  return true;
-              }else {
-                  return false;
-              }
-          }else return false;
+        boolean check=false;
+       List<Account> list=findAll();
+       for (Account account1: list){
+           if (account1.getEmail().equals(account.getEmail())) {
+               check = true;
+               break;
+           }
+       }
+       return check;
     }
 
     @Override
     public boolean checkNumber(Account account) {
-        HashMap<String,String> userMap=getUserMap();
-          if (userMap!=null){
-              if (userMap.containsKey(account.getUsername())
-                      &&userMap.get(account.getUsername()).equals(account.getNumberPhone())){
-                  return true;
-              }else {
-                  return false;
-              }
-          }else return false;
+        boolean check=false;
+        List<Account> list=findAll();
+        for (Account account1: list){
+            if (account1.getNumberPhone().equals(account.getNumberPhone())) {
+                check = true;
+                break;
+            }
+        }
+        return check;
+
     }
 
 //    @Override
@@ -80,29 +91,29 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
     }
 
-    @Override
-    public HashMap<String, String> getMail() {
-        HashMap<String,String> userMap=new HashMap<>();
-        List<Account> accountList=findAll();
-        if (accountList!=null){
-            for (Account account:accountList){
-                userMap.put(account.getUsername(),account.getEmail());
-            }
-        }
-        return userMap;
-    }
-
-    @Override
-    public HashMap<String, String> getNumber() {
-        HashMap<String,String> userMap=new HashMap<>();
-        List<Account> accountList=findAll();
-        if (accountList!=null){
-            for (Account account:accountList){
-                userMap.put(account.getUsername(),account.getNumberPhone());
-            }
-        }
-        return userMap;
-    }
+//    @Override
+//    public List<String> getMail() {
+//        List<String> listMail=new ArrayList<>();
+//        List<Account> accountList=findAll();
+//        if (accountList!=null){
+//            for (Account account:accountList){
+//                listMail.add(account.getEmail());
+//            }
+//        }
+//        return listMail;
+//    }
+//
+//    @Override
+//    public List<String> getNumber() {
+//        List<String> listNumber=new ArrayList<>();
+//        List<Account> accountList=findAll();
+//        if (accountList!=null){
+//            for (Account account:accountList){
+//                listNumber.add(account.getNumberPhone());
+//            }
+//        }
+//        return listNumber;
+//    }
 
     @Override
     public HashMap<String, String> getUserMap() {

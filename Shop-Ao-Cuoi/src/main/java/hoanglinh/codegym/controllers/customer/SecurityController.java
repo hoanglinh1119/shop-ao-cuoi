@@ -13,10 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -83,23 +80,96 @@ public class SecurityController {
         return mav;
     }
     @PostMapping("/register")
-        public ModelAndView Register(@Valid @ModelAttribute Account account, BindingResult bindingResult){
+        public ModelAndView Register(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult){
         ModelAndView mav=new ModelAndView("register");
-        System.out.println(account.getName());
-////        new Account().validate(account,bindingResult);
         if (bindingResult.hasFieldErrors()){
             return mav;
-        }else if (accountService.checkUserName(account)){
-            mav.addObject("message","tai khoan da ton tai");
-        } else if (accountService.checkMail(account)){mav.addObject("message1","email da duoc su dung");}
-        else if (accountService.checkNumber(account)){mav.addObject("message2","so dien thoai da su dung");}
-        else {
+        }
+        if (accountService.checkUserName(account)){mav.addObject("message","tai khoan da ton tai");
+            return mav;}
+
+        else
+            if (accountService.checkUserName(account)){
+                mav.addObject("message","tai khoan da ton tai");
+                return mav;
+            } else if (accountService.checkNumber(account)&&accountService.checkMail(account)){
+                mav.addObject("message1","email da duoc su dung");
+                mav.addObject("message2","so dien thoai da su dung");
+                return mav;
+            }else if (accountService.checkMail(account))
+            {mav.addObject("message1","email da duoc su dung");
+                      return mav;
+            } else
+                if (accountService.checkNumber(account))
+                {mav.addObject("message2","so dien thoai da su dung");
+                       return mav;
+                } else {account.setRole(role);
+                accountService.save(account);
+                mav.addObject("message","dang ki thanh cong");}
+
+
+        return mav;
+    }
+
+    @GetMapping("/user/change-info")
+    public ModelAndView formChangeInfo(){
+        ModelAndView mav=new ModelAndView("change-info");
+        Account account=accountService.getAccountByUserName(getPrincipal());
+        mav.addObject("account",account);
+        mav.addObject("user",getAccount_role());
+        return mav;
+    }
+    @PostMapping("/user/change-info")
+    public ModelAndView changeInfo(@Valid @ModelAttribute ("account")Account account,BindingResult bindingResult) {
+        ModelAndView mav = new ModelAndView("change-info");
+        if (!bindingResult.hasFieldErrors()) {
+            Account account2 = accountService.getAccountByMail(account.getEmail());
+            Account account3 = accountService.getAccountByNumber(account.getNumberPhone());
+
+            if (accountService.checkNumber(account) && accountService.checkMail(account)) {
+                if (account2.getUsername().equals(account.getUsername()) && account3.getUsername().equals(account.getUsername())) {
+                    account.setRole(role);
+                    accountService.save(account);
+                    mav.addObject("message", "sua thanh cong");
+                    return mav;
+                } else if (!account2.getUsername().equals(account.getUsername())) {
+                    mav.addObject("message", "email da duoc su dung");
+                    return mav;
+                } else if (!account3.getUsername().equals(account.getUsername())) {
+                    mav.addObject("message", "so dien thoai da su dung");
+                    return mav;
+                } else {
+                    mav.addObject("message", "email va so dien thoai da duoc su dung");
+                    return mav;
+                }
+
+            } else {
+                account.setRole(role);
+                accountService.save(account);
+                mav.addObject("message", "sua thanh cong");
+                return mav;
+            }
+        } return mav;
+    }
+    @GetMapping("/user/change-pass")
+    public ModelAndView formChangePass(){
+        ModelAndView modelAndView=  new ModelAndView("change-pass");
+        Account account=accountService.getAccountByUserName(getPrincipal());
+        modelAndView.addObject("account",account);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @PostMapping("/user/change-pass")
+    public ModelAndView changePass(@Valid @ModelAttribute("account") Account account,BindingResult bindingResult){
+        ModelAndView mav=new ModelAndView("change-pass");
+        if (!bindingResult.hasFieldErrors()){
             account.setRole(role);
             accountService.save(account);
-            mav.addObject("message","dang ki thanh cong");
+            mav.addObject("message","sua thanh cong");
         }
         return mav;
     }
+
 
 
 

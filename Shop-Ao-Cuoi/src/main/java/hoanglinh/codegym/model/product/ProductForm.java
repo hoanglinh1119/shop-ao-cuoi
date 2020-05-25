@@ -6,7 +6,6 @@ import hoanglinh.codegym.model.product.ProductProperties.StoreLocation;
 import hoanglinh.codegym.model.product.ProductProperties.TypeProduct;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
 
 public class ProductForm {
     private Long id;

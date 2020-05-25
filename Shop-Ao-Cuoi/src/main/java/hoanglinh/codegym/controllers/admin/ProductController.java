@@ -80,7 +80,7 @@ public class ProductController {
      }
      // tao doi tuong de luu vao db
     Product product=new Product(fileName,productForm.getName(),productForm.getPrice(),
-            productForm.getShortDescription(), productForm.getLongDescription(),productForm.getAmount(),
+            productForm.getForGender(), productForm.getDescription(),productForm.getAmount(),
             productForm.getProductMaterial(),productForm.getProductColor(),productForm.getStoreLocation(),
             productForm.getTypes());
      // luu vao db
@@ -94,6 +94,7 @@ public class ProductController {
     @GetMapping("/admin/edit-product/{id}")
     public String showFormEditProduct(@PathVariable("id") Long id, Model model) {
         Product product = iProductService.findOne(id);
+
         ProductForm productForm=new ProductForm();
 
         productForm.setId(product.getId());
@@ -104,8 +105,8 @@ public class ProductController {
         productForm.setStoreLocation(product.getStoreLocation());
         productForm.setProductMaterial(product.getProductMaterial());
         productForm.setTypes(product.getTypes());
-        productForm.setShortDescription(product.getShortDescription());
-        productForm.setLongDescription(product.getLongDescription());
+        productForm.setForGender(product.getForGender());
+        productForm.setDescription(product.getDescription());
 
         model.addAttribute("productForm",productForm);
         return "admin-product-edit";
@@ -128,7 +129,7 @@ public class ProductController {
         // luu file len server
         if (fileName.equals("")){
             Product product=new Product(productForm.getId(),productForm.getName(),productForm.getPrice(),
-                    productForm.getShortDescription(), productForm.getLongDescription(),productForm.getAmount(),
+                    productForm.getForGender(), productForm.getDescription(),productForm.getAmount(),
                     productForm.getProductMaterial(),productForm.getProductColor(),productForm.getStoreLocation(),
                     productForm.getTypes());
             iProductService.save(product);
@@ -140,7 +141,7 @@ public class ProductController {
                 FileCopyUtils.copy(productForm.getImage().getBytes(), new File(fileUpload + fileName));
 
                 Product product=new Product(productForm.getId(),fileName,productForm.getName(),productForm.getPrice(),
-                        productForm.getShortDescription(), productForm.getLongDescription(),productForm.getAmount(),
+                        productForm.getForGender(), productForm.getDescription(),productForm.getAmount(),
                         productForm.getProductMaterial(),productForm.getProductColor(),productForm.getStoreLocation(),
                         productForm.getTypes());
                 System.out.println(product);
@@ -152,6 +153,32 @@ public class ProductController {
             }
         }
         return modelAndView;
+    }
+    @GetMapping("/admin/delete-product/{id}")
+    public String showFormDelete(@PathVariable("id") Long id, Model model){
+        Product product = iProductService.findOne(id);
+
+        ProductForm productForm=new ProductForm();
+
+        productForm.setId(product.getId());
+        productForm.setAmount(product.getAmount());
+        productForm.setName(product.getName());
+        productForm.setPrice(product.getPrice());
+        productForm.setProductColor(product.getProductColor());
+        productForm.setStoreLocation(product.getStoreLocation());
+        productForm.setProductMaterial(product.getProductMaterial());
+        productForm.setTypes(product.getTypes());
+        productForm.setForGender(product.getForGender());
+        productForm.setDescription(product.getDescription());
+
+        model.addAttribute("productForm",productForm);
+        return "admin-product-delete";
+    }
+    @PostMapping("/admin/delete-product")
+    public String deleteProduct(@ModelAttribute("productForm") ProductForm productForm,Model model){
+       iProductService.delete(productForm.getId());
+        model.addAttribute("message", "delete success");
+       return "admin-product-delete";
     }
 
 }

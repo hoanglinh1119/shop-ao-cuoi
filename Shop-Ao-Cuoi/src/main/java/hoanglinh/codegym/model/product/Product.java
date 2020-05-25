@@ -17,8 +17,17 @@ public class Product {
     private String image;
     private String name;
     private double price;
-    private String shortDescription;
-    private String longDescription;
+
+    public String getForGender() {
+        return forGender;
+    }
+
+    public void setForGender(String forGender) {
+        this.forGender = forGender;
+    }
+
+    private String forGender;
+    private String description;
     private int amount;
 
     @ManyToOne
@@ -39,15 +48,15 @@ public class Product {
 
     }
 
-    public Product(Long id, String image, String name, double price, String shortDescription,
-                   String longDescription, int amount, ProductMaterial productMaterial,
+    public Product(Long id, String image, String name, double price, String forGender,
+                   String description, int amount, ProductMaterial productMaterial,
                    ProductColor productColor, StoreLocation storeLocation, TypeProduct types) {
         this.id = id;
         this.image = image;
         this.name = name;
         this.price = price;
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
+        this.forGender = forGender;
+        this.description = description;
         this.amount = amount;
         this.productMaterial = productMaterial;
         this.productColor = productColor;
@@ -55,14 +64,14 @@ public class Product {
         this.types = types;
     }
 
-    public Product(String image, String name, double price, String shortDescription, String longDescription,
+    public Product(String image, String name, double price, String forGender, String description,
                    int amount, ProductMaterial productMaterial, ProductColor productColor,
                    StoreLocation storeLocation, TypeProduct types) {
         this.image = image;
         this.name = name;
         this.price = price;
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
+        this.forGender = forGender;
+        this.description = description;
         this.amount = amount;
         this.productMaterial = productMaterial;
         this.productColor = productColor;
@@ -72,11 +81,11 @@ public class Product {
 
 
 
-    public Product(String name, double price, String shortDescription, String longDescription, int amount, ProductMaterial productMaterial, ProductColor productColor, StoreLocation storeLocation, TypeProduct types) {
+    public Product(String name, double price, String forGender, String description, int amount, ProductMaterial productMaterial, ProductColor productColor, StoreLocation storeLocation, TypeProduct types) {
         this.name = name;
         this.price = price;
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
+        this.forGender = forGender;
+        this.description = description;
         this.amount = amount;
         this.productMaterial = productMaterial;
         this.productColor = productColor;
@@ -84,12 +93,12 @@ public class Product {
         this.types = types;
     }
 
-    public Product(Long id, String name, double price, String shortDescription, String longDescription, int amount, ProductMaterial productMaterial, ProductColor productColor, StoreLocation storeLocation, TypeProduct types) {
+    public Product(Long id, String name, double price, String forGender, String description, int amount, ProductMaterial productMaterial, ProductColor productColor, StoreLocation storeLocation, TypeProduct types) {
     this.id=id;
     this.name = name;
     this.price = price;
-    this.shortDescription = shortDescription;
-    this.longDescription = longDescription;
+    this.forGender = forGender;
+    this.description = description;
     this.amount = amount;
     this.productMaterial = productMaterial;
     this.productColor = productColor;
@@ -128,21 +137,13 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    public String getShortDescription() {
-        return shortDescription;
+    
+    public String getDescription() {
+        return description;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getAmount() {

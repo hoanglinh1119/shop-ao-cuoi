@@ -63,7 +63,7 @@ public class SecurityController {
     public String Homepage(Model model,@PageableDefault(size = 3) Pageable pageable) {
         Iterable<Product> products=iProductService.findAll(pageable);
         model.addAttribute("products", products);
-        return "home-user";
+        return "home";
     }
 
     @GetMapping("/user/home")
@@ -171,7 +171,13 @@ public class SecurityController {
         return mav;
     }
 
-
+     @GetMapping("/product-detail/{id}")
+    public ModelAndView showProductDetail(@PathVariable Long id){
+        ModelAndView modelAndView=new ModelAndView("product-detail");
+        Product product=iProductService.findOne(id);
+        modelAndView.addObject("products",product);
+        return modelAndView;
+     }
 
 
 }

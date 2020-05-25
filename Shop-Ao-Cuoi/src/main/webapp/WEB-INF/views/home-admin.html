@@ -28,7 +28,8 @@
                             <span class="actual">$</span>
                             <a th:href="@{'/admin/edit-product/'+${product.id}}"
                                style="padding-left: 10px">EDIT</a>
-                            <a style="padding-left: 10px" th:id="${product.id}" onclick="doDelete(this.id)">DELETE</a>
+                            <a style="padding-left: 10px" th:id="${product.id}"
+                               th:href="@{'/admin/delete-product/'+${product.id}}">DELETE</a>
                         </div>
                     </div>
                     <a class="cart-right" onclick="addToCart(this.id)" th:id="${product.getId()}"></a>
@@ -102,21 +103,5 @@
                 console.log(error);
             });
     }
-
-    function doDelete(id) {
-        if (confirm("Are you sure to delete this product?")) {
-            {
-                $.ajax(`${apiBaseUrl}/admin/delete/${id}`)
-                    .done(function (result) {
-                        console.log("sfds");
-                        window.location.reload(); // then reload the page.(3)
-                    })
-                    .fail(function (error) {
-                        console.log(error);
-                    });
-            }
-        }
-    }
-
 </script>
 </html>

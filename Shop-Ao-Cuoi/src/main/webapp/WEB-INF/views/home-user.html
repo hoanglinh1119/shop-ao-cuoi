@@ -39,24 +39,30 @@
 
         </div>
         <div class="clear"></div>
-        <a th:href="@{/}">
-            <button type="button" class="btn btn-primary btn-sm">PAGE 1</button>
-        </a>
-        <a th:href="@{/home/1}">
-            <button type="button" class="btn btn-success btn-sm">PAGE 2</button>
-        </a>
-        <a th:href="@{/home/2}">
-            <button type="button" class="btn btn-danger btn-sm">PAGE 3</button>
-        </a>
-        <a th:href="@{/home/3}">
-            <button type="button" class="btn btn-secondary btn-sm">PAGE 4</button>
-        </a>
-        <a th:href="@{/home/4}">
-            <button type="button" class="btn btn-warning btn-sm">PAGE 5</button>
-        </a>
-        <a th:href="@{/home/5}">
-            <button type="button" class="btn btn-info btn-sm">PAGE 6</button>
-        </a>
+        <a th:href="@{'/user/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}" th:value="${products.number + 1}"></span>
+
+        <!--    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}" th:value="${customers.number + 1}"></span>-->
+        <a th:href="@{'/user/home'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
+
+        <!--        <a th:href="@{/}">-->
+<!--            <button type="button" class="btn btn-primary btn-sm">PAGE 1</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{/home/1}">-->
+<!--            <button type="button" class="btn btn-success btn-sm">PAGE 2</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{/home/2}">-->
+<!--            <button type="button" class="btn btn-danger btn-sm">PAGE 3</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{/home/3}">-->
+<!--            <button type="button" class="btn btn-secondary btn-sm">PAGE 4</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{/home/4}">-->
+<!--            <button type="button" class="btn btn-warning btn-sm">PAGE 5</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{/home/5}">-->
+<!--            <button type="button" class="btn btn-info btn-sm">PAGE 6</button>-->
+<!--        </a>-->
 
     </div>
     <span th:text="${user}"></span>

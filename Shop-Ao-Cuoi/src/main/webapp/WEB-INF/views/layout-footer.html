@@ -154,7 +154,10 @@
 
             <div class="menu">
                 <ul class="megamenu skyblue">
-                    <li class="active grid"><a href="/">Home</a></li>
+                    <li class="active grid"><a th:if="${user}=='ROLE_ADMIN'" href="/admin/home">Home</a></li>
+                    <li class="active grid"><a th:if="${user}=='ROLE_USER'" href="/user/home">Home</a></li>
+                    <li class="active grid"><a th:if="${user}==null" href="/home">Home</a></li>
+
                     <li><a class="color4" href="#">women</a>
                         <div class="megapanel">
                             <div class="row">
@@ -241,7 +244,6 @@
             <div class="menu">
 <!--                th:if="${user=='[ROLE_ADMIN'}-->
                 <ul class="megamenu skyblue" th:if="${user}=='ROLE_ADMIN'">
-                    <li class="active grid"><a href="/">Home</a></li>
                     <li><a class="color4" href="/admin/create-product">Add product</a></li>
                     <li><a class="color5" href="/admin/user-manage">User Manage</a></li>
                     <li><a class="color5" href="/admin/colors">Color Manage</a></li>
@@ -250,7 +252,6 @@
                     <li><a class="color5" href="/admin/storeLocations"> Store Manage</a></li>
                 </ul>
             </div>
-
         </div>
         <div class="header-bottom-right">
             <div class="search ui-widget">

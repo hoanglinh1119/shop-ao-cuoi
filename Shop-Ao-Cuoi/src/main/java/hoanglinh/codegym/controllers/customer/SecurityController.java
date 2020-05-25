@@ -6,6 +6,7 @@ import hoanglinh.codegym.model.user.Role;
 import hoanglinh.codegym.service.User.AccountService;
 import hoanglinh.codegym.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,7 +52,7 @@ public class SecurityController {
     }
     @GetMapping("/admin/home")
     public ModelAndView homeAdmin(@PageableDefault(size = 3) Pageable pageable){
-        Iterable<Product> products=iProductService.findAll(pageable);
+        Page<Product> products=iProductService.findAll(pageable);
         ModelAndView modelAndView=new ModelAndView("home-admin");
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());

@@ -12,8 +12,7 @@
 
     <h2 class="head">Featured Products</h2>
     <div class="top-box">
-        <div class="col_1_of_3 span_1_of_3" th:each="product,iterStat :${products}">
-
+        <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
             <div class="inner_content clearfix">
                 <div class="product_image">
                     <a th:href="@{'/product-detail/' + ${product.id}}">
@@ -29,7 +28,6 @@
                             <span class="actual">$</span>
                             <a th:href="@{'/admin/edit-product/'+${product.id}}"
                                style="padding-left: 10px">EDIT</a>
-                            <!--                            <a th:href="@{'/admin/delete-product/'+${product.getId()}}" style="padding-left: 10px">DELETE</a>-->
                             <a style="padding-left: 10px" th:id="${product.id}" onclick="doDelete(this.id)">DELETE</a>
                         </div>
                     </div>
@@ -40,34 +38,32 @@
 
         </div>
         <div class="clear"></div>
-        <a th:href="@{/}">
-            <button type="button" class="btn btn-primary btn-sm">PAGE 1</button>
-        </a>
-        <a th:href="@{/home/1}">
-            <button type="button" class="btn btn-success btn-sm">PAGE 2</button>
-        </a>
-        <a th:href="@{/home/2}">
-            <button type="button" class="btn btn-danger btn-sm">PAGE 3</button>
-        </a>
-        <a th:href="@{/home/3}">
-            <button type="button" class="btn btn-secondary btn-sm">PAGE 4</button>
-        </a>
-        <a th:href="@{/home/4}">
-            <button type="button" class="btn btn-warning btn-sm">PAGE 5</button>
-        </a>
-        <a th:href="@{/home/5}">
-            <button type="button" class="btn btn-info btn-sm">PAGE 6</button>
-        </a>
+<!--        <a th:href="@{'/products'(page=${products.number - 2})}" th:if="${products.hasPrevious()}">-->
+<!--            <button type="button" class="btn btn-primary btn-sm">PAGE 1</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{'/products'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">-->
+<!--            <button type="button" class="btn btn-success btn-sm">PAGE 2</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{'/products'(page=${products.number})}" th:if="${products.hasPrevious()}">-->
+<!--            <button type="button" class="btn btn-danger btn-sm">PAGE 3</button>-->
+<!--        </a>-->
+<!--        <a th:href="@{'/products'(page=${products.number + 1})}" th:if="${products.hasNext()}">-->
+<!--            <button type="button" class="btn btn-secondary btn-sm">PAGE 4</button>-->
+        <a th:href="@{'/admin/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}" th:value="${products.number + 1}"></span>
+
+        <!--    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}" th:value="${customers.number + 1}"></span>-->
+        <a th:href="@{'/admin/home'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
 
     </div>
     <h2 class="head">New Products</h2>
     <div class="section group">
-        <div class="col_1_of_3 span_1_of_3" th:each="product,iterStat :${products}">
+        <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
 
             <div class="inner_content clearfix">
                 <div class="prproduct_image">
                     <a th:href="@{'/product-detail/'+${product.id}}">
-                        <img th:src="${product.getImage()}" th:title="${product.getName()}"/>
+                        <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}"/>
                     </a>
                 </div>
                 <div class="sale-box"><span class="on_sale title_shop">New</span></div>

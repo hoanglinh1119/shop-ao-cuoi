@@ -23,10 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -213,6 +210,88 @@ public class ProductController {
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());
        return modelAndView;
+    }
+    @GetMapping("/admin/nav-men")
+    public ModelAndView getProductForMen(@PageableDefault(size = 3) Pageable pageable){
+        String men="nam";
+        Page<Product> products=iProductService.findByForGender(men,pageable);
+        ModelAndView modelAndView=new ModelAndView("home-admin");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @GetMapping("/admin/nav-women")
+    public ModelAndView getProductForWomen(@PageableDefault(size = 3) Pageable pageable){
+        String women="nu";
+        Page<Product> products=iProductService.findByForGender(women,pageable);
+        ModelAndView modelAndView=new ModelAndView("home-admin");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @GetMapping("/user/nav-men")
+    public ModelAndView getProductForMenUser(@PageableDefault(size = 3) Pageable pageable){
+        String men="nam";
+        Page<Product> products=iProductService.findByForGender(men,pageable);
+        ModelAndView modelAndView=new ModelAndView("home-user");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @GetMapping("/user/nav-women")
+    public ModelAndView getProductForWomenUser(@PageableDefault(size = 3) Pageable pageable){
+        String women="nu";
+        Page<Product> products=iProductService.findByForGender(women,pageable);
+        ModelAndView modelAndView=new ModelAndView("home-user");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @GetMapping("/home/nav-men")
+    public ModelAndView getProductForMenHome(@PageableDefault(size = 3) Pageable pageable){
+        String men="nam";
+        Page<Product> products=iProductService.findByForGender(men,pageable);
+        ModelAndView modelAndView=new ModelAndView("home");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
+    @GetMapping("/home/nav-women")
+    public ModelAndView getProductForWomenHome(@PageableDefault(size = 3) Pageable pageable){
+        String women="nu";
+        Page<Product> products=iProductService.findByForGender(women,pageable);
+        ModelAndView modelAndView=new ModelAndView("home");
+        modelAndView.addObject("products",products);
+        return modelAndView;
+    }
+    @GetMapping("/search-product")
+    public ModelAndView getFormSearch(){
+        if (getAccount_role().equals("ROLE_USER")){
+            return new ModelAndView("home-user");
+        }else if(getAccount_role().equals("ROLE_ADMIN")){
+            return new ModelAndView("home-admin");
+        }else return new ModelAndView("home");
+    }
+
+    @PostMapping("/search-product")
+    public ModelAndView getPageSearch(@PageableDefault(size = 3) Pageable pageable,@RequestParam("key-search") String startWithText){
+        Page<Product> products=iProductService.findAllByNameStartsWith(startWithText,pageable);
+        if (products!=null){
+        if (getAccount_role().equals("ROLE_USER")){
+            ModelAndView modelAndView=new ModelAndView("home-user");
+            modelAndView.addObject("products",products);
+            return modelAndView;
+        }else if (getAccount_role().equals("ROLE_ADMIN")){
+            ModelAndView modelAndView=new ModelAndView("home-admin");
+            modelAndView.addObject("products",products);
+            return modelAndView;
+        }else {
+            ModelAndView modelAndView=new ModelAndView("home");
+            modelAndView.addObject("products",products);
+            return modelAndView;}
+        }else {
+            return new ModelAndView("error.404");
+        }
     }
 
 }

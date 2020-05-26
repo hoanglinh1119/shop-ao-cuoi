@@ -53,7 +53,6 @@ public class SecurityController {
     @GetMapping("/admin/home")
     public ModelAndView homeAdmin(@PageableDefault(size = 3) Pageable pageable){
         Page<Product> products=iProductService.findAll(pageable);
-
         ModelAndView modelAndView=new ModelAndView("home-admin");
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());
@@ -73,7 +72,6 @@ public class SecurityController {
         ModelAndView modelAndView=new ModelAndView("home-user");
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());
-
         return modelAndView;
     }
     @GetMapping("/register")

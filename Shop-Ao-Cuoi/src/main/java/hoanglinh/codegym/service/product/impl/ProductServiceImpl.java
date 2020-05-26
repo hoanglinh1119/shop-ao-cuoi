@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
+
+
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private IProductRepository iProductRepositories;
@@ -16,6 +18,21 @@ public class ProductServiceImpl implements IProductService {
     public Page<Product> findAll(Pageable pageable) {
         return iProductRepositories.findAll(pageable);
     }
+
+    @Override
+    public Page<Product> findByForGender(String forGender,Pageable pageable) {
+        return iProductRepositories.findAllByForGender(forGender,pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByNameStartsWith(String startWithText, Pageable pageable) {
+        return iProductRepositories.findAllByNameStartsWith(startWithText,pageable);
+    }
+
+//    @Override
+//    public Page<Product> allProduct(String key, int i, int i1) {
+//        return (Page<Product>) iProductRepositories.findAll();
+//    }
 
 
     @Override
@@ -30,6 +47,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void delete(Long id) {
-  iProductRepositories.delete(id);
+   iProductRepositories.delete(id);
     }
+
 }

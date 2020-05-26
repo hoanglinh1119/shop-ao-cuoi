@@ -63,7 +63,7 @@
     <!--    <link rel="stylesheet" href="/resources/demos/style.css">-->
 
     <script>
-        const apiBaseUrl = 'http://localhost:8080';
+        const apiBaseUrl = 'http://localhost:4200';
 
         function search_product() {
             let keySearch = document.getElementById("search").value;
@@ -79,8 +79,7 @@
                 .fail(function (error) {
                     console.log(error);
                 });
-        };
-
+        }
     </script>
 </head>
 <body>
@@ -159,7 +158,9 @@
                     <li class="active grid"><a th:if="${user}=='ROLE_ADMIN'" href="/admin/home">Home</a></li>
                     <li class="active grid"><a th:if="${user}==null" href="/home">Home</a></li>
 
-                    <li><a class="color4" href="#">women</a>
+                    <li><a class="color4" th:if="${user}=='ROLE_USER'" href="/user/nav-women">women</a>
+                        <a class="color4" th:if="${user}=='ROLE_ADMIN'" href="/admin/nav-women">women</a>
+                        <a class="color4" th:if="${user}==null" th:href="@{/home/nav-women}">women</a>
                         <div class="megapanel">
                             <div class="row">
                                 <div class="col1">
@@ -199,7 +200,9 @@
                             </div>
                         </div>
                     </li>
-                    <li><a class="color5" href="#">Men</a>
+                    <li><a class="color5" th:if="${user}=='ROLE_USER'" href="/user/nav-men">men</a>
+                        <a class="color5" th:if="${user}=='ROLE_ADMIN'" href="/admin/nav-men">men</a>
+                        <a class="color5" th:if="${user}==null" href="/home/nav-men">men</a>
                         <div class="megapanel">
                             <div class="col1">
                                 <div class="h_nav">
@@ -256,7 +259,7 @@
         </div>
         <div class="header-bottom-right">
             <div class="search ui-widget">
-                <form action="/search-product" method="post">
+                <form th:action="@{/search-product}" method="post">
                     <input autocomplete="false" type="text" id="search" placeholder="Search" class="textbox" oninput="search_product()"
                            name="key-search">
                     <input type="submit" id="submit">
@@ -427,6 +430,5 @@
         </div>
     </div>
 </footer>
-
 </body>
 </html>

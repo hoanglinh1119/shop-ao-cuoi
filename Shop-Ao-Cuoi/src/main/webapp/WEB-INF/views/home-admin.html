@@ -15,7 +15,7 @@
         <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
             <div class="inner_content clearfix">
                 <div class="product_image">
-                    <a th:href="@{'/product-detail/' + ${product.id}}">
+                    <a th:href="@{'/admin/product-detail/' + ${product.id}}">
                         <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}" height="450px" width="450px"/>
                     </a>
                 </div>
@@ -63,7 +63,7 @@
 
             <div class="inner_content clearfix">
                 <div class="prproduct_image">
-                    <a th:href="@{'/product-detail/'+${product.id}}">
+                    <a th:href="@{'/admin/product-detail/'+${product.id}}">
                         <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}"/>
                     </a>
                 </div>

@@ -1,9 +1,15 @@
 package hoanglinh.codegym.controllers.admin;
 
 
+
 import hoanglinh.codegym.model.product.ProductProperties.ProductColor;
+import hoanglinh.codegym.model.user.Account;
+import hoanglinh.codegym.model.user.Role;
+import hoanglinh.codegym.service.User.AccountService;
 import hoanglinh.codegym.service.product.IProductColorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,12 +22,31 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ColorController {
     @Autowired
+    private AccountService accountService;
+    @Autowired
     private IProductColorService productColorService;
+
+    public String getPrincipal() {
+        String role=null ;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            role = ((UserDetails) principal).getUsername();
+        }else {
+            role=principal.toString();
+        }
+        return role;
+    }
+    public String getAccount_role(){
+        Account account=accountService.getAccountByUserName(getPrincipal());
+        Role role=account.getRole();
+        return role.getName();
+    }
     @GetMapping("/admin/colors")
     public ModelAndView listColors(){
         Iterable<ProductColor> colors = productColorService.findAll();
         ModelAndView modelAndView = new ModelAndView("admin-color-list");
         modelAndView.addObject("colors", colors);
+        modelAndView.addObject("user",getAccount_role());
         return modelAndView;
     }
 
@@ -29,6 +54,7 @@ public class ColorController {
     public ModelAndView showCreateForm(){
         ModelAndView modelAndView = new ModelAndView("admin-color-create");
         modelAndView.addObject("colors", new ProductColor());
+        modelAndView.addObject("user",getAccount_role());
         return modelAndView;
     }
 
@@ -43,6 +69,7 @@ public class ColorController {
         productColorService.save(productColor);
         ModelAndView modelAndView = new ModelAndView("admin-color-create");
         modelAndView.addObject("colors", new ProductColor());
+        modelAndView.addObject("user", getAccount_role());
         modelAndView.addObject("message", "New color created successfully");
 
      return modelAndView;
@@ -54,6 +81,7 @@ public class ColorController {
         if(color != null) {
             ModelAndView modelAndView = new ModelAndView("admin-color-edit");
             modelAndView.addObject("colors", color);
+            modelAndView.addObject("user",getAccount_role());
             return modelAndView;
 
         }else {
@@ -68,6 +96,7 @@ public class ColorController {
         ModelAndView modelAndView = new ModelAndView("admin-color-edit");
         modelAndView.addObject("colors", productColor);
         modelAndView.addObject("message", "Color updated successfully");
+        modelAndView.addObject("user", getAccount_role());
         return modelAndView;
     }
 
@@ -77,6 +106,7 @@ public class ColorController {
         if(color != null) {
             ModelAndView modelAndView = new ModelAndView("admin-color-delete");
             modelAndView.addObject("color", color);
+            modelAndView.addObject("user",getAccount_role());
             return modelAndView;
 
         }else {
@@ -86,8 +116,12 @@ public class ColorController {
     }
 
     @PostMapping("/admin/delete-color")
-    public String deleteColor(@ModelAttribute("color") ProductColor productColor){
+    public ModelAndView deleteColor(@ModelAttribute("color") ProductColor productColor){
+        ModelAndView modelAndView=new ModelAndView("admin-color-list");
         productColorService.remove(productColor.getId());
-        return "redirect:admin/colors";
+        Iterable<ProductColor> colors = productColorService.findAll();
+        modelAndView.addObject("colors", colors);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
     }
 }

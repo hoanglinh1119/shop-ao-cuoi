@@ -2,8 +2,14 @@ package hoanglinh.codegym.controllers.admin;
 
 import hoanglinh.codegym.model.product.ProductProperties.ProductColor;
 import hoanglinh.codegym.model.product.ProductProperties.TypeProduct;
+import hoanglinh.codegym.model.user.Account;
+import hoanglinh.codegym.model.user.Role;
+import hoanglinh.codegym.service.User.AccountService;
+import hoanglinh.codegym.service.product.IStoreLocationService;
 import hoanglinh.codegym.service.product.ITypeProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,11 +22,32 @@ import org.springframework.web.servlet.ModelAndView;
 public class TypeProductController {
     @Autowired
     private ITypeProductService typeProductService;
+    @Autowired
+    private IStoreLocationService iStoreLocationService;
+    @Autowired
+    private AccountService accountService;
+
+    public String getPrincipal() {
+        String role=null ;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            role = ((UserDetails) principal).getUsername();
+        }else {
+            role=principal.toString();
+        }
+        return role;
+    }
+    public String getAccount_role(){
+        Account account=accountService.getAccountByUserName(getPrincipal());
+        Role role=account.getRole();
+        return role.getName();
+    }
     @GetMapping("/admin/types")
     public ModelAndView listTypeProduct(){
         Iterable<TypeProduct> types = typeProductService.findAll();
         ModelAndView modelAndView = new ModelAndView("admin-type-list");
         modelAndView.addObject("types", types);
+        modelAndView.addObject("user", getAccount_role());
         return modelAndView;
     }
 
@@ -28,6 +55,7 @@ public class TypeProductController {
     public ModelAndView showCreateForm(){
         ModelAndView modelAndView = new ModelAndView("admin-type-create");
         modelAndView.addObject("types", new TypeProduct());
+        modelAndView.addObject("user", getAccount_role());
         return modelAndView;
     }
 
@@ -53,10 +81,12 @@ public class TypeProductController {
         if(type != null) {
             ModelAndView modelAndView = new ModelAndView("admin-type-edit");
             modelAndView.addObject("types", type);
+            modelAndView.addObject("user", getAccount_role());
             return modelAndView;
 
         }else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
+            modelAndView.addObject("user", getAccount_role());
             return modelAndView;
         }
     }
@@ -81,17 +111,23 @@ public class TypeProductController {
         if(typeProduct != null) {
             ModelAndView modelAndView = new ModelAndView("admin-type-delete");
             modelAndView.addObject("type", typeProduct);
+            modelAndView.addObject("user", getAccount_role());
             return modelAndView;
 
         }else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
+            modelAndView.addObject("user", getAccount_role());
             return modelAndView;
         }
     }
 
     @PostMapping("/admin/delete-type")
-    public String deleteType(@ModelAttribute("type") TypeProduct typeProduct){
+    public ModelAndView deleteType(@ModelAttribute("type") TypeProduct typeProduct){
         typeProductService.remove(typeProduct.getId());
-        return "redirect:types";
+        Iterable<TypeProduct> types = typeProductService.findAll();
+        ModelAndView modelAndView = new ModelAndView("admin-type-list");
+        modelAndView.addObject("types", types);
+        modelAndView.addObject("user", getAccount_role());
+        return modelAndView;
     }
 }

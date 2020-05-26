@@ -12,11 +12,11 @@
 
     <h2 class="head">Featured Products</h2>
     <div class="top-box">
-        <div class="col_1_of_3 span_1_of_3" th:each="product,iterStat :${products}">
+        <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
 
             <div class="inner_content clearfix">
                 <div class="product_image">
-                    <a th:href="@{'/product-detail/' + ${product.id}}">
+                    <a th:href="@{'/user/product-detail/'+${product.id}}">
                         <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}" height="450px" width="450px"/>
                     </a>
                 </div>
@@ -68,12 +68,12 @@
 <!--    <span th:text="${user}"></span>-->
     <h2 class="head">New Products</h2>
     <div class="section group">
-        <div class="col_1_of_3 span_1_of_3" th:each="product,iterStat :${products}">
+        <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
 
             <div class="inner_content clearfix">
                 <div class="prproduct_image">
                     <a th:href="@{'/product-detail/'+${product.id}}">
-                        <img th:src="${product.getImage()}" th:title="${product.getName()}"/>
+                        <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}"/>
                     </a>
                 </div>
                 <div class="sale-box"><span class="on_sale title_shop">New</span></div>

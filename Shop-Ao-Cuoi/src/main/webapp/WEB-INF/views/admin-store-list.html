@@ -25,8 +25,8 @@
             <td th:text="${storeLocation.district}"></td>
             <td th:text="${storeLocation.province}"></td>
 
-            <td><a th:href="@{/edit-storeLocation/__${storeLocation.id}__ }">Edit</a></td>
-            <td><a th:href="@{/delete-storeLocation/__${storeLocation.id}__ }">Delete</a></td>
+            <td><a th:href="@{/admin/edit-storeLocation/__${storeLocation.id}__ }">Edit</a></td>
+            <td><a th:href="@{/admin/delete-storeLocation/__${storeLocation.id}__ }">Delete</a></td>
         </tr>
     </th:block>
 </table>

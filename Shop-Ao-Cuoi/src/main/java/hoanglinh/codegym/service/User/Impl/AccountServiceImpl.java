@@ -65,18 +65,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     }
 
-//    @Override
-//    public boolean checkPass(Account account) {
-//        HashMap<String,String> userMap=getUserMap();
-//          if (userMap!=null){
-//              if (userMap.containsKey(account.getUsername())
-//                      &&userMap.get(account.getUsername()).equals(account.getPassword())){
-//                  return true;
-//              }else {
-//                  return false;
-//              }
-//          }else return false;
-//    }
 
     @Override
     public boolean checkUserName(Account account) {
@@ -91,29 +79,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
     }
 
-//    @Override
-//    public List<String> getMail() {
-//        List<String> listMail=new ArrayList<>();
-//        List<Account> accountList=findAll();
-//        if (accountList!=null){
-//            for (Account account:accountList){
-//                listMail.add(account.getEmail());
-//            }
-//        }
-//        return listMail;
-//    }
-//
-//    @Override
-//    public List<String> getNumber() {
-//        List<String> listNumber=new ArrayList<>();
-//        List<Account> accountList=findAll();
-//        if (accountList!=null){
-//            for (Account account:accountList){
-//                listNumber.add(account.getNumberPhone());
-//            }
-//        }
-//        return listNumber;
-//    }
 
     @Override
     public HashMap<String, String> getUserMap() {

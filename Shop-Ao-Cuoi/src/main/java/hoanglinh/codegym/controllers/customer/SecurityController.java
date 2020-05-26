@@ -30,7 +30,7 @@ public class SecurityController {
     @Autowired
     private AccountService accountService;
 
-    private String getPrincipal() {
+    public String getPrincipal() {
        String role=null ;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -53,6 +53,7 @@ public class SecurityController {
     @GetMapping("/admin/home")
     public ModelAndView homeAdmin(@PageableDefault(size = 3) Pageable pageable){
         Page<Product> products=iProductService.findAll(pageable);
+
         ModelAndView modelAndView=new ModelAndView("home-admin");
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());
@@ -72,6 +73,7 @@ public class SecurityController {
         ModelAndView modelAndView=new ModelAndView("home-user");
         modelAndView.addObject("products",products);
         modelAndView.addObject("user",getAccount_role());
+
         return modelAndView;
     }
     @GetMapping("/register")
@@ -178,7 +180,23 @@ public class SecurityController {
         modelAndView.addObject("products",product);
         return modelAndView;
      }
+    @GetMapping("/user/product-detail/{id}")
+    public ModelAndView showProductDetailUser(@PathVariable Long id){
+        ModelAndView modelAndView=new ModelAndView("product-detail");
+        Product product=iProductService.findOne(id);
+        modelAndView.addObject("products",product);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
 
+    @GetMapping("/admin/product-detail/{id}")
+    public ModelAndView showProductDetailAdmin(@PathVariable Long id){
+        ModelAndView modelAndView=new ModelAndView("product-detail");
+        Product product=iProductService.findOne(id);
+        modelAndView.addObject("products",product);
+        modelAndView.addObject("user",getAccount_role());
+        return modelAndView;
+    }
 
 }
 

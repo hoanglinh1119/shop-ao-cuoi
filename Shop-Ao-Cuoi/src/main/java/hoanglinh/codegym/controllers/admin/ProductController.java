@@ -7,12 +7,18 @@ import hoanglinh.codegym.model.product.ProductProperties.ProductColor;
 import hoanglinh.codegym.model.product.ProductProperties.ProductMaterial;
 import hoanglinh.codegym.model.product.ProductProperties.StoreLocation;
 import hoanglinh.codegym.model.product.ProductProperties.TypeProduct;
+import hoanglinh.codegym.model.user.Account;
+import hoanglinh.codegym.model.user.Role;
+import hoanglinh.codegym.service.User.AccountService;
 import hoanglinh.codegym.service.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -52,6 +58,25 @@ public class ProductController {
     @ModelAttribute("colors")
     public Iterable<ProductColor> colors(){return iProductColorService.findAll();}
 
+    @Autowired
+    private AccountService accountService;
+
+    public String getPrincipal() {
+        String role=null ;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            role = ((UserDetails) principal).getUsername();
+        }else {
+            role=principal.toString();
+        }
+        return role;
+    }
+    public String getAccount_role(){
+        Account account=accountService.getAccountByUserName(getPrincipal());
+        Role role=account.getRole();
+        return role.getName();
+    }
+
 
 
 
@@ -59,6 +84,7 @@ public class ProductController {
  public ModelAndView createProduct() {
      ModelAndView modelAndView = new ModelAndView("admin-product-create");
      modelAndView.addObject("productForm", new ProductForm());
+     modelAndView.addObject("user", getAccount_role());
      return modelAndView;
  }
  @PostMapping("/admin/create-product")
@@ -89,6 +115,7 @@ public class ProductController {
      ModelAndView modelAndView = new ModelAndView("admin-product-create");
      modelAndView.addObject("product", new Product());
      modelAndView.addObject("message", "New customer created successfully");
+     modelAndView.addObject("user", getAccount_role());
      return modelAndView;
  }
     @GetMapping("/admin/edit-product/{id}")
@@ -109,6 +136,7 @@ public class ProductController {
         productForm.setDescription(product.getDescription());
 
         model.addAttribute("productForm",productForm);
+        model.addAttribute("user", getAccount_role());
         return "admin-product-edit";
     }
 
@@ -135,6 +163,7 @@ public class ProductController {
             iProductService.save(product);
             modelAndView.addObject("message", "edit success");
             modelAndView.addObject("product",product);
+            modelAndView.addObject("user", getAccount_role());
         }else {
             try {
 
@@ -148,6 +177,7 @@ public class ProductController {
                 iProductService.save(product);
                 modelAndView.addObject("message", "edit success");
                 modelAndView.addObject("product",product);
+                modelAndView.addObject("user", getAccount_role());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -172,13 +202,17 @@ public class ProductController {
         productForm.setDescription(product.getDescription());
 
         model.addAttribute("productForm",productForm);
+        model.addAttribute("user", getAccount_role());
         return "admin-product-delete";
     }
     @PostMapping("/admin/delete-product")
-    public String deleteProduct(@ModelAttribute("productForm") ProductForm productForm,Model model){
+    public ModelAndView deleteProduct(@ModelAttribute("productForm") ProductForm productForm,@PageableDefault(size = 3) Pageable pageable){
        iProductService.delete(productForm.getId());
-        model.addAttribute("message", "delete success");
-       return "admin-product-delete";
+        Page<Product> products=iProductService.findAll(pageable);
+        ModelAndView modelAndView=new ModelAndView("home-admin");
+        modelAndView.addObject("products",products);
+        modelAndView.addObject("user",getAccount_role());
+       return modelAndView;
     }
 
 }

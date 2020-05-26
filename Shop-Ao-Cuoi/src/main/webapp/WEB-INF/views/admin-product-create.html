@@ -89,7 +89,7 @@
 <!-- start slider -->
 <div style="background-color:#e0ddda">
     <div class="wrap">
-        <h3>Edit Product</h3>
+        <h3>Creat New Product</h3>
         <p th:text="${message}"></p><br>
         <form th:action="@{/admin/create-product}" th:object="${productForm}" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -136,13 +136,13 @@
                 </select>
             </div>
             <div class="form-group">
-                <p>Short Description</p>
+                <p>Product For Gender</p>
                 <input type="text" class="form-control"
-                       th:value="*{shortDescription}" name="shortDescription">
+                       th:field="*{forGender}" name="forGender">
             </div>
             <div class="form-group">
-                <p>Long Describe</p>
-                <textarea class="form-control" rows="3" th:field="*{longDescription}" name="longDescription"></textarea>
+                <p>Describe</p>
+                <textarea class="form-control" rows="3" th:field="*{description}" name="description"></textarea>
             </div>
             <br>
             <button type="submit" class="btn btn-primary">SAVE</button>

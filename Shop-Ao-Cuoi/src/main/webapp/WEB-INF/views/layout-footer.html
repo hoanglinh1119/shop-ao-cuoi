@@ -115,7 +115,7 @@
                 |
                 <li><a href="/login">Log In</a></li>
                 |
-                <li><a href="/register">Sign Up</a></li>
+                <li><a href="/register">Register</a></li>
             </ul>
         </div>
         <!--            </div>-->
@@ -149,13 +149,14 @@
     <div class="wrap">
         <div class="header-bottom-left">
             <div class="logo">
-                <a href="/"><img src="../../properties/images/logo.png" alt=""/></a>
+                <a th:if="${user}=='ROLE_ADMIN'" href="/admin/home"><img src="../../properties/images/logo.png" alt=""/></a>
             </div>
 
             <div class="menu">
                 <ul class="megamenu skyblue">
-                    <li class="active grid"><a th:if="${user}=='ROLE_ADMIN'" href="/admin/home">Home</a></li>
                     <li class="active grid"><a th:if="${user}=='ROLE_USER'" href="/user/home">Home</a></li>
+
+                    <li class="active grid"><a th:if="${user}=='ROLE_ADMIN'" href="/admin/home">Home</a></li>
                     <li class="active grid"><a th:if="${user}==null" href="/home">Home</a></li>
 
                     <li><a class="color4" href="#">women</a>

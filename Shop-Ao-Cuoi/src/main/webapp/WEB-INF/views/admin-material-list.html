@@ -18,8 +18,8 @@
     <th:block th:each="material : ${materials}">
         <tr>
             <td th:text="${material.material}"></td>
-            <td><a th:href="@{/edit-material/__${material.id}__ }">Edit</a></td>
-            <td><a th:href="@{/delete-material/__${material.id}__ }">Delete</a></td>
+            <td><a th:href="@{/admin/edit-material/__${material.id}__ }">Edit</a></td>
+            <td><a th:href="@{/admin/delete-material/__${material.id}__ }">Delete</a></td>
         </tr>
     </th:block>
 </table>

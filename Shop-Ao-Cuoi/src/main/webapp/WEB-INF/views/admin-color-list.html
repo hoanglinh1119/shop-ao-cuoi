@@ -19,8 +19,8 @@
     <th:block th:each="color : ${colors}">
         <tr>
             <td th:text="${color.color}"></td>
-            <td><a th:href="@{/edit-color/__${color.id}__ }">Edit</a></td>
-            <td><a th:href="@{/delete-color/__${color.id}__ }">Delete</a></td>
+            <td><a th:href="@{/admin/edit-color/__${color.id}__ }">Edit</a></td>
+            <td><a th:href="@{/admin/delete-color/__${color.id}__ }">Delete</a></td>
         </tr>
     </th:block>
 </table>

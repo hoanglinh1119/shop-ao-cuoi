@@ -1,5 +1,7 @@
 package hoanglinh.codegym.model.user;
 
+import hoanglinh.codegym.model.bill.BillDetail;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,8 +12,26 @@ public class UserInfo {
     private String address;
     private String email;
     private String numberPhone;
+//    @OneToOne
+//    private BillDetail billDetail;
     @OneToOne
     private Account account;
+
+//    public BillDetail getBillDetail() {
+//        return billDetail;
+//    }
+//
+//    public void setBillDetail(BillDetail billDetail) {
+//        this.billDetail = billDetail;
+//    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public Long getId() {
         return id;

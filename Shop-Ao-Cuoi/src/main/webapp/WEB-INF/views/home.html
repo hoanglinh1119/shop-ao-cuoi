@@ -16,7 +16,7 @@
 
             <div class="inner_content clearfix">
                 <div class="product_image">
-                    <a th:href="@{'/product-detail/' + ${product.id}}">
+                    <a th:href="@{'/product-detail/'+${product.id}}">
                         <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}" height="450px" width="450px"/>
                     </a>
                 </div>
@@ -39,6 +39,11 @@
 
         </div>
         <div class="clear"></div>
+        <a th:href="@{'/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}" th:value="${products.number + 1}"></span>
+
+        <!--    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}" th:value="${customers.number + 1}"></span>-->
+        <a th:href="@{'/home'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
 <!--        <a th:href="@{'/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>-->
 <!--        <a th:text="${products.number + 1}"></a>/<a th:text="${products.totalPages}" th:value="${products.number + 1}"></a>-->
 
@@ -46,18 +51,18 @@
 <!--        <a th:href="@{'/home'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>-->
 
 
-                <a  th:href="@{'/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">
-                    <button type="button" class="btn btn-danger btn-sm">Previous</button>
-                </a>
-            <a  th:href="@{'/home'(page=${products.number})}" th:if="${products.number}<${products.totalPages}">
-                <button type="button" class="btn btn-danger btn-sm"></button>
-             </a>
-           <a  th:href="@{'/home'(page=${products.number})}" th:if="${products.number}<${products.totalPages}">
-            <button type="button" class="btn btn-danger btn-sm" value="${products.number}"></button>
-          </a>
-        <a  th:href="@{'/home'(page=${products.number+1})}" th:if="${products.hasNext()}">
-            <button type="button" class="btn btn-danger btn-sm">Next</button>
-        </a>
+<!--                <a  th:href="@{'/home'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">-->
+<!--                    <button type="button" class="btn btn-danger btn-sm">Previous</button>-->
+<!--                </a>-->
+<!--            <a  th:href="@{'/home'(page=${products.number})}" th:if="${products.number}<${products.totalPages}">-->
+<!--                <button type="button" class="btn btn-danger btn-sm"></button>-->
+<!--             </a>-->
+<!--           <a  th:href="@{'/home'(page=${products.number})}" th:if="${products.number}<${products.totalPages}">-->
+<!--            <button type="button" class="btn btn-danger btn-sm" value="${products.number}"></button>-->
+<!--          </a>-->
+<!--        <a  th:href="@{'/home'(page=${products.number+1})}" th:if="${products.hasNext()}">-->
+<!--            <button type="button" class="btn btn-danger btn-sm">Next</button>-->
+<!--        </a>-->
         <!--        <a th:href="@{/home/3}">-->
         <!--            <button type="button" class="btn btn-secondary btn-sm">PAGE 4</button>-->
         <!--        </a>-->
@@ -72,12 +77,12 @@
     <!--    <span th:text="${user}"></span>-->
     <h2 class="head">New Products</h2>
     <div class="section group">
-        <div class="col_1_of_3 span_1_of_3" th:each="product :${products}">
+        <div class="col_1_of_3 span_1_of_3" th:each="product: ${products}">
 
             <div class="inner_content clearfix">
                 <div class="prproduct_image">
                     <a th:href="@{'/product-detail/'+${product.id}}">
-                        <img th:src="${product.getImage()}" th:title="${product.getName()}"/>
+                        <img th:src="@{'/i/'+ ${product.getImage()}}" th:title="${product.getName()}"/>
                     </a>
                 </div>
                 <div class="sale-box"><span class="on_sale title_shop">New</span></div>

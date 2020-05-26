@@ -12,23 +12,6 @@ public class ProductForm {
     private MultipartFile image;
     private String name;
     private double price;
-
-    public String getForGender() {
-        return forGender;
-    }
-
-    public void setForGender(String forGender) {
-        this.forGender = forGender;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     private String forGender;
     private String description;
     private int amount;
@@ -89,7 +72,21 @@ public class ProductForm {
         this.storeLocation = storeLocation;
         this.types = types;
     }
+    public String getForGender() {
+        return forGender;
+    }
 
+    public void setForGender(String forGender) {
+        this.forGender = forGender;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public MultipartFile getImage() {
         return image;
     }

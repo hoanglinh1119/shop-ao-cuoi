@@ -17,15 +17,6 @@ public class Product {
     private String image;
     private String name;
     private double price;
-
-    public String getForGender() {
-        return forGender;
-    }
-
-    public void setForGender(String forGender) {
-        this.forGender = forGender;
-    }
-
     private String forGender;
     private String description;
     private int amount;
@@ -104,6 +95,13 @@ public class Product {
     this.productColor = productColor;
     this.storeLocation = storeLocation;
     this.types = types;
+    }
+    public String getForGender() {
+        return forGender;
+    }
+
+    public void setForGender(String forGender) {
+        this.forGender = forGender;
     }
 
     public Long getId() {

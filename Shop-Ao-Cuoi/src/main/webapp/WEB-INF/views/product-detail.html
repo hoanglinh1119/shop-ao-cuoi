@@ -15,7 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <br>
 <br>
 <div class="container" style="background-color: cornflowerblue">
-    <form th:action="@{/product-detail}" th:object="${products}"  method="post">
+    <form th:action="@{/admin/product-detail}" th:object="${products}"  method="post">
         <div class="container form-group">
             <p class="text-center">Product Information</p>
 
@@ -51,7 +51,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="input-group-prepend">
                         <span class="input-group-text">*</span>
                     </div>
-                    <input type="text" name="email" class="form-control"  th:field="*{productMaterial}"
+                    <input type="text" name="email" class="form-control"  th:field="*{productMaterial.material}"
                            aria-describedby="addon-wrapping" readonly>
 
                 </div>
@@ -63,7 +63,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="input-group-prepend">
                         <span class="input-group-text">*</span>
                     </div>
-                    <input type="text" name="address" class="form-control" th:field="*{productColor}"
+                    <input type="text" name="address" class="form-control" th:field="*{productColor.color}"
                            aria-describedby="addon-wrapping" readonly>
                 </div>
             </div>
@@ -85,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="input-group-prepend">
                         <span class="input-group-text">*</span>
                     </div>
-                    <input type="text" name="address" class="form-control" th:field="*{types}"
+                    <input type="text" name="address" class="form-control" th:field="*{types.type}"
                            aria-describedby="addon-wrapping" readonly>
                 </div>
             </div>
